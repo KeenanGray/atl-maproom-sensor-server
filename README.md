@@ -20,21 +20,7 @@ Give examples
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+To install this script as a service on the machine, place the file "sensor_service.conf" in the `/etc/init` directory. The script will now start whenever the machine boots, and will respawn automatically. The script can be manually stopped with `stop sensor_server` and started with `start sensor_server`.
 
 ## Running the tests
 
