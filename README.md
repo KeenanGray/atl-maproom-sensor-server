@@ -20,7 +20,11 @@ Give examples
 
 ### Installing
 
-To install this script as a service on the machine, place the file "sensor_service.conf" in the `/etc/init` directory. The script will now start whenever the machine boots, and will respawn automatically. The script can be manually stopped with `stop sensor_server` and started with `start sensor_server`.
+Upon cloning the repository, run `npm install` to install necessary dependencies including `socket.io`. Sudo privileges may be necessary to install the packages.
+
+The npm package `service-systemd` was used to install the server script as a service on the machine. The command `sudo service-systemd -a -n sensor_server -c /path/to/repository -A sensor_server.js`. Finally, to enable the service to run on machine startup, run the command `systemctl enable sensor_server`.
+
+After the service has been installed, the service can be stopped, started, and restarted with `system_`
 
 ## Running the tests
 
