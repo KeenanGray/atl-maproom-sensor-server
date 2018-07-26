@@ -1,54 +1,22 @@
 # The Atlanta Map Room Sensor Server
 
-To document and reflect upon the connections and disjunctions between civic data and lived experience in the city, through the collaborative creation of large-scale, interpretive maps.
+This repository contains code for the Sensor Server for the Atlanta Map Room, which publishes sensor location information in order to track the projector. The LR4 circuit board should be connected by USB to the machine on which this service is installed. Ensure that the laser points to a smooth, non-reflective surface on the side of the projector to ensure consistent readings.
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-* node.js
-
-* ubuntu vm
-
-```
-Give examples
-```
-
-### Installing
+## Installation and Setup
 
 Upon cloning the repository, run `npm install` to install necessary dependencies including `socket.io`. Sudo privileges may be necessary to install the packages.
 
-The npm package `service-systemd` was used to install the server script as a service on the machine. The command `sudo service-systemd -a -n sensor_server -c /path/to/repository -A sensor_server.js`. Finally, to enable the service to run on machine startup, run the command `systemctl enable sensor_server`.
+The npm package `service-systemd` was used to install the server script as a service on the machine. The command `sudo service-systemd -a -n sensor_server -c /path/to/repository`. Finally, to enable the service to run on machine startup, run the command `systemctl enable sensor_server`.
 
-After the service has been installed, the service can be stopped, started, and restarted with `system_`
+After the service has been installed, the service can be started, stopped, and restarted with `sudo service sensor_server [start | stop | restart]`.
 
-## Running the tests
+Upon starting the service (either by booting the machine or starting the service manually) the main server console for the Atlanta Map Room Web app should log "Sensor server connected" to the console. Additionally, the projector window should move as the projector is moved along the track.
 
-Explain how to run the automated tests for this system
+## Calibration
+It will be necessary to calibrate the projector sensor to align the edges of the table with the guiding box on the Controller. The Projector.js file requires two numbers that specify the start and end distance for the projector rail. To obtain these two measurements, it is possible to view the output of the sensor from the terminal window. Run the command `sudo journalctl -u sensor_server -f` in order to view a live logging of all measurements from the sensor. Move the projector to one end of the rail and make note of the measurement, then move the projector to the other end to obtain the full range of the projection.
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
+## Components
+The sensor server consists of a node file that connects to the main map room server via a socket.io client. Measurements are obtained by the node application through a python script that executes a continuous loop that listens for sensor measurements and prints them to stdout. This sensor server captures and publishes this output as a *sensorUpdate* to the socket. These measurements are sent to the server and used to calculate the projection center.
 
 ## Built With
 
